@@ -40,9 +40,9 @@ Reported checks MUST use an outcome that accurately describes the evidence:
 | `passed` | The relevant check completed successfully in the observed environment and scope. |
 | `failed` | The check produced a failure; its origin is reported where established. |
 | `incomplete` | Execution started but did not establish a complete result, such as an interrupted, timed-out, or partial run. |
-| `not run — unavailable` | The check is identified, but a required capability, prerequisite, or permission is unavailable. |
-| `not run — unknown` | No suitable command or procedure has been established. |
-| `not run — deferred` | The check is identified but has not been executed; state the reason. |
+| `not run â€” unavailable` | The check is identified, but a required capability, prerequisite, or permission is unavailable. |
+| `not run â€” unknown` | No suitable command or procedure has been established. |
+| `not run â€” deferred` | The check is identified but has not been executed; state the reason. |
 | `not applicable` | The check is irrelevant to the work, justified under its governing applicability criteria. |
 
 If failures coexist with an interrupted or partial run, MUST retain both the observed failures and incomplete verification. A single overall label must not erase either fact.
@@ -64,3 +64,23 @@ That obligation prevents verified completion until the required verification is 
 Partial results MAY be presented within authorized scope with explicit verification status and unfinished work. Presenting partial results does not authorize publication, deployment, or closure as `done`; closure follows [plan lifecycle and resumption](../implementation/workflow.md#plan-lifecycle-and-resumption).
 
 The workflow's final report MUST retain material failures, incomplete coverage, skipped or empty intended selections, established or unknown failure origin, and unsatisfied criteria with prerequisites needed to continue. Concise prose is sufficient, but MUST distinguish implementation progress, verification status, and overall completion without hiding material limitations.
+
+## Kit preparation-control checks
+
+For this kit's Python adapter, use an existing Python 3.11+ interpreter and run
+`<verified-python> -B -m unittest discover -s tests -v` from the kit root.
+On Windows invoke an absolute executable with the PowerShell call operator (&).
+The bundled Python 3.12 interpreter used by the installed hook is verified;
+`py -3` is an optional launcher only where executable access is available.
+The tests invoke the hook process with temporary files and no live application
+services. They verify missing/incomplete/stale/out-of-scope preparation denies
+covered mutations and valid preparation permits disposable writes. Installation
+tests verify backups, idempotent hook merging and preservation of other settings.
+These checks are required for changes to this adapter; they do not impose Python
+or this command on unrelated target repositories.
+
+Also check the actual installed Codex hook path with disposable canaries and
+verify enabled/trusted registration. Keep Python fixture outcomes, real host
+execution, configuration and unverified enforcement limits distinct. Review
+documentation links/metadata, source diffs and Windows CRLF without rewriting
+unrelated pre-existing changes. The installation guide owns its recovery steps.

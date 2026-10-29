@@ -3,11 +3,17 @@ status: accepted
 owner: user
 baseline: v1.0
 ---
-# AGENTS.md — Project Router
+# AGENTS.md — Development Router
 
-This router selects context and identifies policy owners for development work within the actual host hierarchy, permissions, and project scope. Supporting documents govern only explicitly delegated subjects. Target adoption must identify its scope; proposal metadata does not prevent host instruction discovery.
+This router selects context and identifies policy owners for development work within the actual host hierarchy, permissions, and project scope. Supporting documents govern only explicitly delegated subjects. Adoption through a global loader covers development tasks across projects; the target repository does not need to identify this package. Project-specific adoption remains available. Proposal metadata does not prevent host instruction discovery.
 
 **Normative terms:** MUST / MUST NOT indicate requirements or prohibitions; SHOULD / SHOULD NOT indicate defaults whose deviations need concrete justification; MAY indicates an option.
+
+## Loading contract
+
+This file is the stable shared entry point. A global instruction file may reference only this entry point and adopt it for development work; routing, delegated owners, and internal path changes remain here. Apply the [instruction-loading contract](docs/implementation/instruction-loading.md) when configuring or validating loading and project-instruction separation.
+
+The active task's workspace is the target repository. Paths in this package resolve relative to the document declaring them; target source, instructions, and documentation resolve in the target workspace. Reading this package does not make it the target of implementation work.
 
 ## Startup and task routing
 
@@ -15,6 +21,7 @@ This router selects context and identifies policy owners for development work wi
 2. Identify the primary task type and relevant secondary concerns. Assess complexity, risk, and authorization independently under [Classification and authorization](#classification-and-authorization).
 3. State brief intent or preparation including `Type`, `Complexity`, `Risk`, concrete assessment reasons, and selected context. Resolve prerequisites under [Context and dependencies](#context-and-dependencies).
 4. Apply the relevant [planning and task phases](docs/implementation/workflow.md#planning-and-task-phases). Refine context as findings emerge; source inspection may interleave with documentation selection.
+5. Before the first modification, MUST complete the workflow's [preparation verification](docs/implementation/workflow.md#before-the-first-modification). When the global control is installed, use its [preparation record](docs/implementation/preparation-control.md); reading instructions alone does not satisfy this check.
 
 The table uses paths relative to `docs/`. Load relevant workflow guidance for preparation, evidence, verification, and continuity; select additional documents by affected subject.
 
@@ -116,10 +123,11 @@ Action approval alone does not resolve unknown policy. Resumption requires the p
 
 ## Delegated document owners
 
-When adopted as applicable project instructions, this router explicitly delegates authority only for the subjects below, subordinate to the governing hierarchy. Delegation does not adopt placeholders, proposed entries, or policy outside its scope.
+When adopted through applicable global or project instructions, this router explicitly delegates authority only for the subjects below, subordinate to the governing hierarchy. Delegation does not adopt placeholders, proposed entries, or policy outside its scope.
 
 | Document | Delegated subject |
 |---|---|
+| [Instruction loading](docs/implementation/instruction-loading.md) | Stable global-reference contract, package/target separation, preservation during migration, and independent-update verification; router authority and security ownership remain unchanged. |
 | [Workflow](docs/implementation/workflow.md) | Evidence and adaptation; task phases and preparation; general verification/reporting; plan lifecycle, authorization records, resumption, closure, and archival. Router authorization and authority remain canonical. |
 | [Testing strategy](docs/testing/strategy.md) | Verified project check definitions; regression evidence, failure attribution, outcomes, test integrity, and unsatisfied required checks. General verification remains in the workflow. |
 | [Security practices](docs/practices/security.md) | Required safety-policy coverage assessment and scoped adopted repository security additions; safeguards and approval values retain their actual governing sources. |

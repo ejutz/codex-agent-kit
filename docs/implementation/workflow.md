@@ -78,7 +78,33 @@ A persistent plan MUST contain the objective, scope, acceptance criteria, verifi
 
 Distinguish **ACCEPTED**, **PROPOSED**, and **OPEN** decisions using the project's vocabulary; confirmed facts remain distinct. Recording a proposal does not adopt it. ADRs SHOULD be reserved for significant design decisions and MUST follow applicable project requirements; complexity alone does not require an ADR. Material findings MUST update the plan; record significant deviations and reassess authorization under the router. Routine decisions within authorized scope do not require repeated approval.
 
-Execute individually verifiable steps and keep their actual progress current. Keep changes focused and review the final diff, or the equivalent available comparison, for unintended modifications.
+For implementation changes, state a falsifiable local hypothesis and perform the smallest meaningful validation after the first substantive change. Execute individually verifiable steps and keep their actual progress current. Keep changes focused and review the final diff, or the equivalent available comparison, for unintended modifications.
+
+## Before the first modification
+
+Before modifying task resources, the agent MUST verify that applicable
+instructions and required prerequisites are resolved, written preparation
+satisfies the selected planning requirements, intended actions are covered by
+existing authorization, and required pre-execution checks are satisfied.
+Record that verification before the first task modification. Missing conditions
+block dependent modifications; permitted inspection and preparation continue.
+Reading instructions or announcing intent alone does not satisfy this check.
+It is an automatic prerequisite check, not a new user-approval requirement.
+
+When the global Codex adapter is installed, the machine-readable record and
+validation procedure in [Preparation control](preparation-control.md) apply.
+That document owns the adapter schema, bootstrap exception and hook operation;
+this workflow retains policy and preparation ownership. The hook may register
+preparation through its exact data-only submission transports before task
+resources are changed; the agent does not need filesystem permission to modify
+the protected Codex home. No exception permits changing hook-owned context or
+combining preparation submission with task writes. Existing conversation plans
+and project plan locations remain valid; the control record supplements them rather than creating another roadmap.
+
+Reassess before dependent work after material scope, authorization, workspace or
+instruction changes. Trivial work keeps its proportional preparation; it does
+not silently bypass this verification. A record proves only the checks actually
+performed, not semantic compliance with every instruction.
 
 ## Verification and reporting
 

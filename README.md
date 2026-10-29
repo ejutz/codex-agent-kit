@@ -23,11 +23,19 @@ The following links are optional authoring references, excluded from the runtime
 
 ## Payload and required prerequisites
 
-The runtime payload is this directory's `AGENTS.md` and associated `docs/` tree. This README is an installation/authoring guide outside that payload. The router defines global-policy prerequisite behavior and delegates operational subjects inside the payload; no essential runtime rule exists only in this README.
+The runtime payload is this directory's `AGENTS.md` and associated `docs/` tree, plus the optional `scripts/preparation_guard.py` Codex adapter and its installer. The [preparation-control guide](docs/implementation/preparation-control.md) describes its explicit activation, standard-library runtime, trust and verification requirements; it is a workflow guardrail, not OS-level enforcement. This README is an installation/authoring guide outside that payload. The router defines global-policy prerequisite behavior and delegates operational subjects inside the payload; no essential runtime rule exists only in this README.
 
 Read the [package index](docs/INDEX.md) to select supporting files. Required links and dependency paths must resolve within the mapped payload, a verified target document, or an explicitly identified external prerequisite. Optional authoring references do not belong in runtime dependency metadata.
 
 The required external policy subjects, discovery method, unmet-prerequisite behavior, and readiness boundary are defined by [Required global policy](AGENTS.md#required-global-policy), with the action-scoped assessment in [Security practices](docs/practices/security.md#policy-coverage-assessment). Actual global approval thresholds, safeguards, confidentiality rules, and technical boundaries come from their governing sources. Inspection, editing, execution, verification, and optional memory depend on available host capabilities; no particular memory service or tool name is assumed.
+
+## Global loading and independent updates
+
+The root AGENTS.md is also the stable entry point for a globally loaded installation. The global instruction file references only that entry point and its adoption scope. Internal routing and delegated document changes stay in this checkout. Target project instruction files contain project additions without identifying this package or repeating shared rules.
+
+Follow the operational [instruction-loading contract](docs/implementation/instruction-loading.md) for target separation, policy prerequisites, preservation, and verification. The [migration prompt](docs/implementation/migrate-project-instructions-prompt.md) supplies a reusable user request for projects that previously integrated package loading locally.
+
+Updating the installed checkout is independent of target work and must use an authorized version-control operation. A stable installation path and root entry-point contract allow internal updates without editing global or project instruction files. Restart the session or explicitly revalidate changed guidance after an update; no automatic Git update is performed at task startup.
 
 ## Installation mapping
 
