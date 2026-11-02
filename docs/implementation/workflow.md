@@ -48,6 +48,8 @@ Before reporting successful installation, check the mapping, required references
 
 ## Planning and task phases
 
+The router separately adopts [Engineering Method](engineering-method.md) for its stated scope. That extension maps methodology artifacts, reviews and revision evidence onto this workflow. This workflow remains the core owner of phases, preparation, lifecycle and general verification; it does not require the extension in a core-only distribution.
+
 The router selects the primary task and relevant secondary contexts. This workflow selects phases and expected results; equivalent labels such as `review`, `spike`, `infra`, and `docs` need no duplicate route. Classification may change after inspection without itself expanding authorization or requiring repeated approval.
 
 | Primary task | Relevant phases and result |
@@ -145,6 +147,13 @@ Keep user authorization and enforced technical permission distinguishable with t
 When blocked or paused, record the cause, last verified progress, unfinished or uncertain effects, and condition needed to continue. A blocker grants no permission for an alternative. Substantive independent permitted work SHOULD continue before treating the whole plan as blocked.
 
 Before resuming execution, reconcile the record with relevant current files, completed effects, applicable instructions, and authorization. The record alone does not prove an effect occurred or remains valid. Verification SHOULD target changes, uncertainty, and consequences, retaining applicable successful evidence under the general verification rule.
+
+Prepare the next actionable phase as its concrete operations become known. A new
+hook generation does not discard the task plan or require renewed approval for
+unchanged authorized scope. Use the adapter's historical record as an antecedent,
+then revalidate relevant sources, destinations and evidence before registering
+the current phase. Agent declarations, authority evidence and observed results
+retain their distinct provenance under the adapter contract.
 
 Do not blindly repeat completed side effects. If an effect cannot be confirmed and repetition could duplicate or damage state, defer dependent action until the uncertainty is resolved. A paused plan needs a user instruction to resume; a blocked plan may resume when its blocking condition is resolved and authorization remains valid. A request to continue does not establish that a technical blocker disappeared or override a mandatory restriction.
 

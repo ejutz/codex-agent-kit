@@ -1,7 +1,7 @@
 ---
 status: accepted
 owner: user
-baseline: v1.0
+baseline: v1.1
 ---
 # AGENTS.md — Development Router
 
@@ -23,19 +23,13 @@ The active task's workspace is the target repository. Paths in this package reso
 4. Apply the relevant [planning and task phases](docs/implementation/workflow.md#planning-and-task-phases). Refine context as findings emerge; source inspection may interleave with documentation selection.
 5. Before the first modification, MUST complete the workflow's [preparation verification](docs/implementation/workflow.md#before-the-first-modification). When the global control is installed, use its [preparation record](docs/implementation/preparation-control.md); reading instructions alone does not satisfy this check.
 
-The table uses paths relative to `docs/`. Load relevant workflow guidance for preparation, evidence, verification, and continuity; select additional documents by affected subject.
+The [context route registry](docs/implementation/context-routing.json) is the canonical mapping from task types, risk and assessed concerns to package documents. Both the agent and the optional adapter use that mapping; do not maintain a second route table. Assess each named concern with a concrete reason, including exclusions. The [resolver contract](docs/implementation/context-resolution.md) defines the data format and mechanical checks; it does not classify the task or establish policy authority.
 
-| Primary type | Additional context when relevant |
-|---|---|
-| analysis (explanation, review, investigation; aliases `review`, `spike`) | Evidence for the question; `design/architecture.md` for architecture; coding, security, or testing guidance for evaluated concerns. |
-| feature | `design/architecture.md`, `practices/coding.md`, `testing/strategy.md`, `preferences/developer.md`. |
-| bugfix | `testing/strategy.md`, `practices/coding.md`, affected architecture and failure evidence. |
-| refactor | `design/architecture.md`, `practices/coding.md`, `testing/strategy.md`. |
-| tests | `testing/strategy.md`, `practices/coding.md`, affected behavior and existing coverage. |
-| infrastructure (alias `infra`) | `practices/security.md`, affected environment/configuration, architecture, and check definitions. |
-| documentation (alias `docs`) | Source material, affected documents, and workflow documentation verification guidance. |
+Select relevant target interfaces, schemas, configuration, tests, ADRs and prior plans through the index or targeted references in addition to these package routes. Analysis includes explanation, review and investigation (`review`/`spike`); `infra` and `docs` normalize to infrastructure and documentation. Routing selects context, not permission or mandatory execution phases.
 
-Secondary concerns select applicable guidance: security, secrets, privacy, external input, data, permissions, or high-risk execution select governing security policy and `practices/security.md`; Git operations or workflow changes select `practices/git.md`; code changes select `preferences/developer.md`. Select relevant interfaces, schemas, configuration, tests, ADRs, and prior plans through the index or targeted references. Routing selects context, not permission or mandatory execution phases.
+## Adopted methodology extension
+
+This working package adopts [Engineering Method](docs/implementation/engineering-method.md) for preparing, performing, resuming or reviewing development changes. Load it for that scope and map its artifact roles to the verified target workflow. Pure explanation follows the existing analysis route. This is a compatible extension subsequent to the v1.0 baseline; adopting a core-only distribution does not adopt the extension. The core policy owners below remain authoritative within their existing scope.
 
 ## Classification and authorization
 
@@ -128,7 +122,9 @@ When adopted through applicable global or project instructions, this router expl
 | Document | Delegated subject |
 |---|---|
 | [Instruction loading](docs/implementation/instruction-loading.md) | Stable global-reference contract, package/target separation, preservation during migration, and independent-update verification; router authority and security ownership remain unchanged. |
+| [Context routes](docs/implementation/context-routing.json) and [resolver contract](docs/implementation/context-resolution.md) | Canonical package route selectors and their mechanical resolution contract. This delegation selects context only; classification, authorization, relevance assessment and dependency obligations remain governed here. |
 | [Workflow](docs/implementation/workflow.md) | Evidence and adaptation; task phases and preparation; general verification/reporting; plan lifecycle, authorization records, resumption, closure, and archival. Router authorization and authority remain canonical. |
+| [Engineering Method](docs/implementation/engineering-method.md) | Adopted methodology extension: proportional artifact mapping, architecture/security review preparation and document-revision traceability. Existing classification, authorization, state and verification owners retain their subjects. |
 | [Testing strategy](docs/testing/strategy.md) | Verified project check definitions; regression evidence, failure attribution, outcomes, test integrity, and unsatisfied required checks. General verification remains in the workflow. |
 | [Security practices](docs/practices/security.md) | Required safety-policy coverage assessment and scoped adopted repository security additions; safeguards and approval values retain their actual governing sources. |
 | [Coding practices](docs/practices/coding.md) | Adopted project coding conventions within applicable global and project requirements. |

@@ -70,7 +70,7 @@ The workflow's final report MUST retain material failures, incomplete coverage, 
 For this kit's Python adapter, use an existing Python 3.11+ interpreter and run
 `<verified-python> -B -m unittest discover -s tests -v` from the kit root.
 On Windows invoke an absolute executable with the PowerShell call operator (&).
-The bundled Python 3.12 interpreter used by the installed hook is verified;
+The historical installation used bundled Python 3.12; verify the current target interpreter.
 `py -3` is an optional launcher only where executable access is available.
 The tests invoke the hook process with temporary files and no live application
 services. They verify missing/incomplete/stale/out-of-scope preparation denies
@@ -78,6 +78,21 @@ covered mutations and valid preparation permits disposable writes. Installation
 tests verify backups, idempotent hook merging and preservation of other settings.
 These checks are required for changes to this adapter; they do not impose Python
 or this command on unrelated target repositories.
+
+Operation regressions cover omitted/ambiguous workdir, a real PowerShell child
+process directory, affected-path instructions, literal separators, tool-specific
+write scope, continuity and evidence identity. The shell execution test is skipped
+explicitly when pwsh is unavailable. Keep that limitation visible in test results.
+The installed-client `--mode ready --tool cwd` probe described in the adapter guide
+must distinguish positive directory binding from a safe rejection.
+
+Required-context regressions cover canonical task/concern routes, mandatory
+security guidance, transitive and newly added dependencies, shared identities,
+cycle review, malformed metadata, missing registries, affected-path prerequisites
+and resolve-only submissions that remain unready. A real-payload test verifies
+resolution within an isolated target rather than inheriting authoring instructions.
+The native probe supplies the current concern/source schema; it remains a
+synthetic client-path check rather than evidence that a model read the sources.
 
 Also check the actual installed Codex hook path with disposable canaries and
 verify enabled/trusted registration. Keep Python fixture outcomes, real host

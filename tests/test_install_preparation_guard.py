@@ -33,7 +33,7 @@ class InstallPreparationGuardTest(unittest.TestCase):
             unrelated = {"hooks": {"PreToolUse": [{"matcher": "Bash", "hooks": [{"type": "command", "command": "existing-script"}]}]}}
             (home / "hooks.json").write_text(json.dumps(unrelated), encoding="utf-8")
             with contextlib.redirect_stdout(io.StringIO()):
-                backup = installer.install(kit, home, sys.executable)
+                backup = installer.install(kit, home, sys.executable, shell="powershell")
                 guard_path = home / "preparation-control/config.json"
                 guard_config = json.loads(guard_path.read_text(encoding="utf-8"))
                 mapping = {"project_root_markers": [".git"], "project_doc_fallback_filenames": ["TEAM_GUIDE.md"]}
@@ -41,6 +41,7 @@ class InstallPreparationGuardTest(unittest.TestCase):
                 guard_path.write_text(json.dumps(guard_config), encoding="utf-8")
                 installer.install(kit, home, sys.executable)
             self.assertEqual(mapping, json.loads(guard_path.read_text(encoding="utf-8"))["discovery"])
+            self.assertEqual("powershell", json.loads(guard_path.read_text(encoding="utf-8"))["shell"])
             self.assertEqual(original, (backup / "config.toml").read_text(encoding="utf-8"))
             config = tomllib.loads((home / "config.toml").read_text(encoding="utf-8"))
             self.assertEqual("existing", config["model"])
@@ -52,6 +53,7 @@ class InstallPreparationGuardTest(unittest.TestCase):
             self.assertEqual(2, len(hooks["hooks"]["PreToolUse"]))
             self.assertEqual(1, len(hooks["hooks"]["SessionStart"]))
             self.assertEqual(1, len(hooks["hooks"]["UserPromptSubmit"]))
+            self.assertEqual(1, len(hooks["hooks"]["PostToolUse"]))
             windows = hooks["hooks"]["PreToolUse"][-1]["hooks"][0]["commandWindows"]
             self.assertTrue(windows.startswith("& '"))
             self.assertIn(str(Path(sys.executable).resolve()), windows)

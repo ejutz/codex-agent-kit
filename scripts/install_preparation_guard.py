@@ -48,8 +48,8 @@ def enabled_config(content):
     return result
 
 
-def install(kit, home, python):
-    """Back up exact global artifacts, then merge three synchronous hook events."""
+def install(kit, home, python, shell=None):
+    """Back up global artifacts, then merge preparation and observation hooks."""
     kit, home, python = (Path(path).resolve() for path in (kit, home, python))
     script = kit / "scripts/preparation_guard.py"
     if not script.is_file() or not python.is_file() or not (home / "AGENTS.md").is_file():
@@ -67,7 +67,11 @@ def install(kit, home, python):
     previous_guard = json.loads(guard_config.read_text(encoding="utf-8-sig")) if guard_config.is_file() else {}
     if not isinstance(previous_guard, dict):
         raise ValueError("Existing preparation configuration is not a supported object.")
+    shell = shell or previous_guard.get("shell")
+    if shell not in {"powershell", "posix"}:
+        raise ValueError("Specify the verified execution shell with --shell powershell or --shell posix.")
     updated_guard = {"version": 1, "kit_root": str(kit), "codex_home": str(home), "state_root": str(control / "state")}
+    updated_guard["shell"] = shell
     if "discovery" in previous_guard:
         updated_guard["discovery"] = previous_guard["discovery"]
     # Both command paths are quoted. No shell-expanded user input is interpolated.
@@ -75,7 +79,7 @@ def install(kit, home, python):
     # Native Codex uses PowerShell on Windows: quoted executables need '&'.
     ps_quote = lambda value: "'" + str(value).replace("'", "''") + "'"
     command_windows = "& " + ps_quote(python) + " " + ps_quote(script) + " --config " + ps_quote(guard_config)
-    for event in ("SessionStart", "UserPromptSubmit", "PreToolUse"):
+    for event in ("SessionStart", "UserPromptSubmit", "PreToolUse", "PostToolUse"):
         groups = hooks["hooks"].setdefault(event, [])
         for group in groups:
             group["hooks"] = [handler for handler in group.get("hooks", []) if
@@ -119,8 +123,9 @@ def main():
     parser.add_argument("--kit-root", required=True)
     parser.add_argument("--codex-home", required=True)
     parser.add_argument("--python", default=sys.executable)
+    parser.add_argument("--shell", choices=["powershell", "posix"], help="Verified shell used by task command tools; retained on reinstall")
     args = parser.parse_args()
-    install(args.kit_root, args.codex_home, args.python)
+    install(args.kit_root, args.codex_home, args.python, args.shell)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "concerns": {
+    "architecture": "Architecture, contracts, interfaces or significant design decisions are affected.",
+    "code": "Code is written or reviewed.",
+    "security": "Security, privacy, secrets, permissions, external input, data or required policy coverage is affected.",
+    "git": "Git operations or Git workflow changes are intended.",
+    "change-review": "Analysis reviews development changes or a development proposal."
+  },
+  "routes": [
+    {"id": "core", "any": [{}], "paths": ["../INDEX.md", "workflow.md", "preparation-control.md", "../testing/strategy.md"]},
+    {"id": "implementation-practices", "any": [{"type": "feature"}, {"type": "bugfix"}, {"type": "refactor"}, {"type": "tests"}, {"concern": "code"}], "paths": ["../practices/coding.md", "../preferences/developer.md"]},
+    {"id": "architecture", "any": [{"concern": "architecture"}], "paths": ["../design/architecture.md"]},
+    {"id": "security", "any": [{"concern": "security"}, {"risk": "high"}, {"type": "infrastructure"}], "paths": ["../practices/security.md"]},
+    {"id": "git", "any": [{"concern": "git"}], "paths": ["../practices/git.md"]},
+    {"id": "engineering-method", "any": [{"type": "feature"}, {"type": "bugfix"}, {"type": "refactor"}, {"type": "tests"}, {"type": "infrastructure"}, {"type": "documentation"}, {"concern": "change-review"}], "paths": ["engineering-method.md"]}
+  ]
+}

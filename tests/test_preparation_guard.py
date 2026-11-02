@@ -33,7 +33,16 @@ class PreparationGuardTest(unittest.TestCase):
                      self.workspace / "AGENTS.md"]:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text("fixture instructions\n", encoding="utf-8")
-        self.config = {"kit_root": str(self.kit), "codex_home": str(self.home), "state_root": str(self.home / "preparation-control/state")}
+        routes_path = self.kit / "docs/implementation/context-routing.json"
+        routes = json.loads((SCRIPT.parents[1] / "docs/implementation/context-routing.json").read_text(encoding="utf-8"))
+        guard.write_json(routes_path, routes)
+        for route in routes["routes"]:
+            for relative in route["paths"]:
+                path = (routes_path.parent / relative).resolve()
+                if not path.exists():
+                    path.parent.mkdir(parents=True, exist_ok=True)
+                    path.write_text("Fixture routed guidance\n", encoding="utf-8")
+        self.config = {"kit_root": str(self.kit), "codex_home": str(self.home), "state_root": str(self.home / "preparation-control/state"), "shell": "powershell"}
         self.config_path = self.home / "guard-config.json"
         guard.write_json(self.config_path, self.config)
         self.event = {"session_id": "test-session", "cwd": str(self.workspace), "hook_event_name": "PreToolUse", "tool_name": "apply_patch"}
@@ -52,6 +61,14 @@ class PreparationGuardTest(unittest.TestCase):
                       recovery="TemporaryDirectory removes only these test fixtures",
                       authorization={"basis": "User requested isolated blocking validation", "pending": []},
                       write_paths=[str(self.target)])
+        routes = guard.read_json(self.kit / "docs/implementation/context-routing.json")
+        record["concerns"] = {key: {"applies": False, "reason": "Disposable fixture has no additional affected subject"} for key in routes["concerns"]}
+        # The broad fixture includes kit guidance explicitly; focused tests remove
+        # individual sources to test required coverage, rather than use the resolver.
+        known = {item["path"] for item in record["sources"]}
+        for path in [self.kit / "docs/implementation/context-routing.json", *self.kit.rglob("*.md")]:
+            if str(path) not in known:
+                record["sources"].append({"path": str(path), "sha256": guard.digest(path), "purpose": "Disposable fixture guidance"})
         check = {"source": str(self.kit / "AGENTS.md"), "requirement": "Preparation exists before mutation",
                  "status": "passed", "evidence": "Fixture plan covers these local tests"}
         record["requirements"] = [check]

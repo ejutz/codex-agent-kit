@@ -46,6 +46,27 @@ Include the following rows only for actual explicit gates. Identify user authori
 |---|---|---|---|
 | <actual gate> | <source and authority> | <pending / granted / denied / reassessment-required> | <grant, denial, or missing evidence> |
 
+## Engineering Method record (when applicable)
+
+Use this optional section when the router adopts [Engineering Method](../implementation/engineering-method.md) and the task benefits from a persistent record. Omit unused rows; artifact roles can reference sections of this plan or the conversation. Meaning and revision rules belong to the extension, not this template.
+
+- **Process depth and evidence:** <Light / Standard / Extended if useful; rationale without merging complexity, risk or permission>
+- **Selected phases and artifact mapping:** <relevant roles, verified locations or conversation references; material omissions and reasons>
+
+| Artifact / role and location | Current revision and document status | Related criterion, review or actual approval |
+|---|---|---|
+| <SPEC / technical design / plan / test report, only as needed> | <revision reference and status under the adopted process> | <source or existing record; no invented gate> |
+
+| Review concern | Applicability and criteria | Evidence, findings and dependent actions |
+|---|---|---|
+| <architecture or security, where relevant> | <basis and governing sources> | <observed review scope; remaining work; reviewer identity if independence is required> |
+
+For actual document-linked approvals, reference the authorization entry above:
+
+| Authorization reference | Covered document revision and scope | Current revision / change assessment | Continued coverage or required reassessment |
+|---|---|---|---|
+| <user instruction or recognized mechanism, authority and conditions> | <preserved snapshot, immutable reference or digest; covered sections/actions> | <comparison and editorial/material/uncertain basis> | <reasoned result and dependent action> |
+
 ## Execution steps
 | Step | Intended result and dependencies | execution_status | Suitable verification / evidence | Blocker, skipped or superseded reason |
 |---|---|---|---|---|

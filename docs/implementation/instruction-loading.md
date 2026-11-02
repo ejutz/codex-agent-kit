@@ -60,7 +60,7 @@ Update the installed checkout independently through its authorized version-contr
 
 The global loader remains a single entry-point reference. The optional runtime
 adapter is installed independently through [Preparation control](preparation-control.md).
-The user's 2026-10-27 request activates it for this local installation. Keep kit
+Activation requires installation and trust verification in each target profile. Keep kit
 paths and hook configuration out of target-project instructions. Existing
 sessions must not be assumed to reload new hooks or instruction bytes.
 

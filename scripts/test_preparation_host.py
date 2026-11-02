@@ -46,6 +46,14 @@ def prepare_probe(guard, home, workspace, mode, command, register=False):
                   recovery="Delete only the temporary probe workspace after verifying it",
                   authorization={"basis": "User requested validation that global preparation hooks block writes", "pending": []},
                   write_paths=[str(workspace / "canary.txt")], commands=[{"command": command, "cwd": str(workspace), "purpose": "Write only the disposable test canary"}])
+    config = guard.read_json(home / "preparation-control/config.json")
+    _, routing = guard.context_routes(config)
+    record["concerns"] = {key: {"applies": False, "reason": "Synthetic canary fixture; no additional target concern"} for key in routing["concerns"]}
+    sources, cycles = guard.required_context(config, workspace, record)
+    if cycles:
+        raise AssertionError("Native probe requires separately reviewed acyclic fixture guidance.")
+    record["sources"] = [{"path": str(source), "sha256": guard.digest(source), "purpose": "Synthetic probe context; not model-reading evidence"} for source in sources]
+    record["context_cycles"] = []
     check = {"source": str(home / "AGENTS.md"), "requirement": "Resolve preparation before writing",
              "status": "passed", "evidence": "Deterministic isolated integration fixture"}
     record["requirements"] = [check]
@@ -69,6 +77,13 @@ def run_probe(args, mode, kind):
         canary = workspace / "canary.txt"
         target = workspace / "outside.txt" if mode == "scope" else canary
         command = "Set-Content -LiteralPath '" + str(canary) + "' -Value 'allowed'"
+        requested_directory = workspace
+        if kind == "cwd":
+            if mode != "ready":
+                raise ValueError("The cwd probe requires --mode ready.")
+            requested_directory = workspace / "different-requested-directory"
+            requested_directory.mkdir()
+            command = "Set-Content -LiteralPath 'canary.txt' -Value (Get-Location).Path"
         patch = "*** Begin Patch\n*** Add File: " + str(target) + "\n+allowed\n*** End Patch"
         observed = {"requests": 0, "tools": [], "tool_feedback": "", "errors": [], "request_shapes": []}
         catalog_data = json.loads(subprocess.run([str(args.codex), "debug", "models", "--bundled"], capture_output=True, text=True, encoding="utf-8", check=True).stdout)
@@ -99,12 +114,12 @@ def run_probe(args, mode, kind):
                             observed["tool_feedback"] = str(item.get("output", ""))
                     first = observed["requests"] == 1
                     if first:
-                        prepared = prepare_probe(guard, args.home, workspace, mode, command, register=kind in {"plan", "submit"})
+                        prepared = prepare_probe(guard, args.home, workspace, mode, command, register=kind in {"plan", "submit", "cwd"})
                         if kind == "plan":
                             observed["preparation_path"] = prepared[0]
                             parameters = {"explanation": guard.SUBMISSION_PREFIX + json.dumps(prepared[1]), "plan": [{"step": "Verify disposable preparation registration", "status": "in_progress"}]}
                             item = {"type": "function_call", "id": "fc_probe", "call_id": "call_probe", "name": "update_plan", "arguments": json.dumps(parameters)}
-                        elif kind == "submit":
+                        elif kind in {"submit", "cwd"}:
                             observed["preparation_path"] = prepared[0]
                             transport = "Write-Output '" + (guard.SUBMISSION_PREFIX + json.dumps(prepared[1])).replace("'", "''") + "'"
                             item = {"type": "function_call", "id": "fc_probe", "call_id": "call_probe", "name": "exec_command", "arguments": json.dumps({"cmd": transport, "workdir": str(workspace)})}
@@ -122,6 +137,9 @@ def run_probe(args, mode, kind):
                                 name = "exec_command"
                             parameters = {"cmd": command, "workdir": str(workspace)} if name == "exec_command" else {"command": command, "workdir": str(workspace)}
                             item = {"type": "function_call", "id": "fc_probe", "call_id": "call_probe", "name": name, "arguments": json.dumps(parameters)}
+                    elif kind == "cwd" and observed["requests"] == 2:
+                        item = {"type": "function_call", "id": "fc_cwd", "call_id": "call_cwd", "name": "exec_command",
+                                "arguments": json.dumps({"cmd": command, "workdir": str(requested_directory)})}
                     else:
                         item = {"type": "message", "id": "msg_probe", "role": "assistant", "status": "completed", "content": [{"type": "output_text", "text": "Disposable hook probe finished.", "annotations": []}]}
                     response = {"id": "resp_probe_" + str(observed["requests"]), "object": "response", "created_at": int(time.time()), "status": "completed", "output": [item],
@@ -171,6 +189,15 @@ def run_probe(args, mode, kind):
             report["feedback"] = observed["tool_feedback"][:1800]
             report["diagnostic"] = process.stderr[-2500:]
             report["events"] = process.stdout[-3500:]
+        if kind == "cwd":
+            # A visible mismatch must deny; a normalized-away workdir must be
+            # replaced by the prepared directory. Neither may write in B.
+            expected = canary.is_file() and canary.read_text(encoding="utf-8-sig").strip() == str(workspace)
+            wrong = (requested_directory / "canary.txt").exists()
+            report.update(prepared_directory=str(workspace), requested_directory=str(requested_directory),
+                          wrote_in_requested_directory=wrong, directory_binding_verified=expected and not wrong,
+                          passed=process.returncode == 0 and observed["requests"] >= 3 and not observed["errors"] and not wrong and (expected or denied))
+            report["outcome"] = "bound execution" if expected and not wrong else "explicit denial" if denied and not wrong else "unverified"
         return report
 
 
@@ -181,7 +208,7 @@ def main():
     parser.add_argument("--codex", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--mode", choices=["missing", "incomplete", "pending", "stale", "scope", "ready"], default="missing")
-    parser.add_argument("--tool", choices=["patch", "shell", "plan", "submit"], default="patch")
+    parser.add_argument("--tool", choices=["patch", "shell", "plan", "submit", "cwd"], default="patch")
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     result = run_probe(args, args.mode, args.tool)

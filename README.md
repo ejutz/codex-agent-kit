@@ -1,19 +1,25 @@
 ---
 status: accepted
 owner: user
-baseline: v1.0
+baseline: v1.1
 ---
-# Development Agent Package — v1.0
+# Development Agent Package — v1.1
 
 ## Purpose and status
 
 This package expresses the accepted development-agent requirements as a reusable project router and supporting Markdown documents. It is intended for a Codex host that supplies instruction discovery, repository inspection, and authorized execution capabilities. Specific tools, runtimes, repository commands, and permissions must be verified in the target environment.
 
-**v1.0 is the approved first reference version containing the accepted specification and aligned package, closed on 2026-10-17.** Requirement adoption, version approval, target adoption, installation, and behavior evaluation are distinct outcomes.
+**v1.1 is the approved package version, closed on 2026-11-02.** It adds Engineering Method and the preparation/context validator to the accepted core. The original v1.0 specification and snapshot remain preserved. Requirement adoption, version approval, target adoption, installation, and behavior evaluation are distinct outcomes.
 
-> **Verification limitation:** Documentary verification completed; target installation and agent behavior evaluation pending.
+> **Verification limitation:** Package checks do not certify target installation, actual client-path enforcement or model comprehension. See the authoring-only [v1.1 release record](../../docs/releases/v1.1/approval.md) for the observed scope and results.
 
 The package is not operationally self-contained: required global policy, target-specific evidence, and host permissions remain external prerequisites. Markdown does not configure or enforce technical permissions. Acceptance scenarios describe intended behavior and are not executed agent evaluations. Successful installation checks alone do not validate agent behavior or resolve unavailable required policy.
+
+## Engineering Method
+
+The user adopted [Engineering Method](docs/implementation/engineering-method.md) on 2026-11-01 as a compatible methodology extension in the current working package. The router supplies adoption, routing and scoped delegation; existing workflow and plan records supply the artifact locations. The extension adds proportionate engineering outcomes, explicit review preparation and document-revision traceability while preserving the core policy owners.
+
+This extension is included in v1.1, subsequent to the preserved v1.0 snapshot. The [context resolver](docs/implementation/context-resolution.md) checks canonical routes and transitive dependencies; semantic assessment and evidence-delivery improvements retain their stated limits. Optional authoring provenance: [DEC-0006](../../docs/decisions/DEC-0006-adopt-engineering-method-extension.md), outside the runtime payload.
 
 ## Authoring boundaries
 
@@ -46,6 +52,7 @@ The sources below exist in this package. No target repository has been selected 
 | `AGENTS.md` | Applicable target `AGENTS.md` | Inspect existing instructions and scope; integrate router and delegated owners under the actual hierarchy. |
 | `docs/INDEX.md` | Existing target index or authorized equivalent | Merge routes and rewrite references for the actual layout. |
 | `docs/implementation/workflow.md` | Existing workflow owner or authorized mapped destination | Preserve adopted phases, planning storage, required checks, and authorization requirements. |
+| `docs/implementation/engineering-method.md` | Existing methodology owner or authorized mapped destination | Preserve the verified target process, explicitly adopt the extension's scope and map artifact roles; no parallel structure or new approval regime. |
 | `docs/planning/_template-plan.md`, `docs/planning/active/`, `docs/planning/done/` | Existing plan format and storage or authorized mapped destinations | Reuse a compatible format; map lifecycle, per-step progress, and per-gate authorization without forcing a second system. |
 | `docs/testing/strategy.md` | Existing verification owner or authorized mapped destination | Populate commands from verified evidence; preserve required checks and their sources. |
 | `docs/design/architecture.md`, `docs/design/_template-adr.md`, `docs/design/decisions/` | Existing architecture and decision records or authorized mapped destinations | Record observed architecture, retain unknowns, and reuse target ADR conventions and history. |

@@ -162,3 +162,136 @@ not substituted for those checks. Other pre-existing package changes were kept.
 The next recommended step is a separately scoped target installation check.
 The authoritative approved baseline remains v1.0; this work does not approve a
 new baseline or certify model behavior.
+
+## Operation-context implementation checkpoint — 2026-11-01
+
+**Authorization:** the user explicitly requested implementation of the reviewed
+recommendations from the audit supplied by another installation. Scope covers
+the shared package, disposable tests and documentation. Global installation and
+client trust were not changed. The approved authoring baseline remains v1.0.
+
+### Embedded ADR: bind preparation to concrete operations
+
+**Status:** accepted for this authorized implementation; target-client validation
+remains pending. **Context:** normalized hook input may omit workdir, startup
+instruction discovery does not cover nested patch destinations, and structural
+record validation does not authenticate an agent's claims.
+
+**Decision:** use the canonical adapter contract in
+[Preparation control](../../implementation/preparation-control.md#command-directories-and-tool-guarantees).
+Bind prepared shell execution to one explicit directory through updatedInput,
+resolve instructions along affected paths, and retain distinct declaration,
+artifact-identity and tool-response evidence. Preserve prior records as history
+while every lifecycle transition still creates a fresh draft.
+
+**Alternatives:** relying on session cwd cannot establish the effective directory;
+waiting solely for a new client field leaves the observed gap unresolved. A full
+shell parser adds a shell/runtime dependency, so diagnostic reads use a bounded
+literal grammar and unsupported syntax retains preparation requirements. Loading
+all nested instructions adds irrelevant context; affected-path chains are sufficient
+for the supported operations. Automatically inheriting readiness is rejected.
+
+**Consequences:** the installed shell must be identified explicitly. Native aliases
+must arrive canonically. Unknown tool hashes still establish identity rather than
+filesystem containment. New PostToolUse registration requires target trust review.
+The callback cannot prove human authorization, comprehension or semantic success.
+
+### Plan execution and evidence
+
+| Step | Result |
+| --- | --- |
+| Preserve current work and reproduce gaps | Package snapshot and hashes retained in the ignored evaluation area. Seven initial regression methods failed before correction (eight failure assertions and one error). |
+| Bind commands and resolve operation context | Implemented unique-directory selection, explicit shell binding, ambiguity rejection and instruction checks for patch/move and known filesystem-write paths. |
+| Refine diagnostic reads and continuity | Literal quoting respects separators; unsupported expansions and smart quotes remain restricted. Prior records are archived without transferring readiness or action permissions. |
+| Distinguish evidence | Optional declared/artifact entries; byte identity validated for artifacts. PostToolUse receipts contain metadata/hashes and make no success claim. |
+| Verify package behavior | Final suite: 62 tests passed, no skips, using Python 3.14.7 on Windows. Includes two actual PowerShell subprocess cases: Python child executes in the prepared directory, and a directory removed after validation prevents the payload from writing. |
+| Prepare installed-client check | Added --mode ready --tool cwd to the native probe. It submits preparation through the callback and distinguishes bound execution, explicit denial and unverified behavior. The new native probe path was reviewed and syntax-checked, not executed here. |
+
+Command from the authoring root:
+`python -B -m unittest discover -s templates/development-agent/tests -q`.
+TMP/TEMP/TMPDIR pointed into the ignored evaluation area and Python bytecode writes
+were disabled. Earlier 55- and 61-test runs passed before the final coverage additions.
+
+Affected code: preparation_guard.py, install_preparation_guard.py and
+test_preparation_host.py; existing guard/installer tests and the new
+test_operation_preparation.py. Updated documents: preparation-control,
+instruction-loading, workflow, testing strategy and this historical record.
+No new normative requirement or baseline was adopted through this checkpoint.
+
+### Completion and continuation
+
+Package implementation and automated checks are complete. The current profile
+has no preparation-control/config.json; installed-client normalization, rewritten
+execution, registration/trust and observation delivery remain unverified here.
+The foreign installation's audit is source evidence, not a certification of this
+checkout. POSIX command grouping is provided but was not executed on this Windows
+host. Existing local changes were preserved; no commit or publication was made.
+
+Next action: update an authorized target installation with the verified shell,
+review the four hook registrations, reload the client and run the documented
+native probe. Require directory_binding_verified for positive binding evidence;
+an explicit rejection establishes only that the mismatched call was blocked.
+
+## Required-context validation checkpoint — 2026-11-01
+
+**Authorization and scope:** the user requested continuation of the validator
+to check required context automatically. This scoped implementation covers the
+shared adapter, canonical routing, disposable regressions and documentation.
+Global installation, trust and release approval remain separate. The earlier
+design-only authoring default is overridden only for this explicitly requested
+package implementation, consistent with the earlier adapter work.
+
+### Decision and plan
+
+Use one delegated JSON route registry for both the agent and the validator.
+Replace the router's independent task-to-file table with that canonical reference;
+retain the router's classification, authority and dependency rules. Resolve only
+selected roots and affected paths, with iterative traversal, path-equivalent
+identity and explicit cycle review. The supported metadata subset and actual
+processing limits are documented; unsupported forms must not become empty lists.
+
+The plan was to preserve existing changes, reproduce the audit omissions, add
+routing/dependency validation and a data-only resolution request, then run the
+complete suite and review package integration. No new dependency or service is
+needed. Record freshness and graph completeness remain separate from the agent's
+semantic judgments and from authentic authorization evidence.
+
+### Execution and verification
+
+- Eight initial regression methods reproduced the gaps before correction, with
+  ten failing assertions including subtests.
+- Implemented canonical selection by type/risk/assessed concern, transitive
+  prerequisites, missing/stale source rejection, shared-node handling, cycle
+  reconciliation and operation-specific dependency checks.
+- Added status=resolve to the existing data-only transport. It computes a draft
+  with source identities and clears check assertions; it cannot authorize writes.
+- Updated the fixture and native probe preparation format without relaxing the
+  previous blocking tests. Twenty new regression methods cover the resolver.
+- The first expanded full run had 76 passes and one fixture-isolation failure:
+  the real-payload test inherited the authoring Git root from its temporary path.
+  An explicit target root marker corrected the fixture boundary; the resolver's
+  discovery behavior was retained.
+- Final full suite: **82 tests passed**, no skips, in 30.071 seconds on Windows,
+  including the existing PowerShell execution regressions. Command from the
+  authoring root: `python -B -m unittest discover -s templates/development-agent/tests -q`.
+  Temporary files were directed to the ignored evaluation area and bytecode
+  writes were disabled. This does not certify installed-client behavior.
+- Artifact checks passed for 15 changed/new files: four Python files parsed,
+  93 local links/fragments resolved, and 12 dependency documents had no unresolved
+  cycle or missing source. The canonical registry passed schema validation.
+  All 25 fingerprinted requirement/release files and the historical prefix of
+  this record remained unchanged. Both repository diff checks passed, retaining
+  the existing root-index line-ending conversion warning. Python was 3.14.7.
+
+### Continuity and remaining limits
+
+The computed context check is implemented in the working package, subsequent to
+the approved v1.0 snapshot. The new route registry and resolver guide must travel
+with the kit on update; old records require current concern/source assessment.
+No global configuration or trust was changed. The updated native probe was not
+executed against an installed client in this session.
+
+Task classification, concern relevance, cycle interpretation and completeness of
+natural-language requirements remain assessments; the adapter does not prove
+source delivery, comprehension or human authorization. The next operational step
+is an authorized target update, trust/reload review and actual client-path checks.
