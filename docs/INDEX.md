@@ -12,6 +12,7 @@ Paths are relative to this index. Entries select context; authority and dependen
 - `implementation/migrate-project-instructions-prompt.md` · reusable user request for another project's migration · **the user requests the same migration in another project; task artifact only**
 
 ## Workflow
+- `implementation/model-routing.md` · optional rc.4 routing, safe diagnostics, verification ownership and criterion-ID evidence · **evaluating or piloting model routing**
 - `implementation/context-routing.json` · canonical package selectors by type, risk and assessed concern · **selecting required context; shared by agent and adapter**
 - `implementation/context-resolution.md` · automatic routes, transitive dependencies, cycle review, source freshness and resolution-only transport · **using or diagnosing required-context validation**
 - `implementation/engineering-method.md` · adopted methodology extension, proportional artifacts, review preparation, revision traceability and explicit enforcement limits · **preparing, performing, resuming or reviewing development changes under the router's adoption**

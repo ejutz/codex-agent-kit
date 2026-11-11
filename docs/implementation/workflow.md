@@ -67,6 +67,27 @@ Authorized inspection MAY begin without an implementation plan or additional app
 
 Analysis-only or review-only work does not authorize edits to reviewed material. Review-and-fix authorizes corrections within its scope and applicable gates. Assess changes revealed by analysis under the router before performing them. Distinguish incidental verification writes, such as caches or test output, from edits to reviewed material, and respect explicit no-change constraints for both. External access, disclosure, and restricted actions retain their authorization requirements.
 
+### Opt-in model routing for read-only work
+
+Use this path only when the user has selected the isolated model-routing
+pilot. After the normal preparation and before dispatch, the coordinator
+includes a `routing` assessment in the active ready record for the read-only
+task. Run the candidate selector with that record, the guard's configuration
+and the prepared workspace. The existing guard still controls the exact
+launch command, and the candidate never transfers write permissions.
+
+The coordinator checks the returned outcome and its evidence against the
+original acceptance criteria. Reassess blocked or escalated outcomes before
+any follow-up. See [Model routing](model-routing.md) for the opt-in command,
+profile prerequisites and result contract.
+
+Retain the original prepared verification obligations and explicitly assign
+delegated versus coordinator checks. The selector's `kind` and suggested
+verification supplement the primary task context; justify material differences
+in `assessment_basis`. Checks outside the child's read-only permissions remain
+with the coordinator. A reviewable result neither completes those checks nor
+changes their governing sources or authorization.
+
 ### Preparation depth and persistence
 | Work | Preparation |
 |---|---|

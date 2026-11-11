@@ -1,0 +1,59 @@
+{
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "completed",
+        "blocked",
+        "escalated"
+      ]
+    },
+    "summary": {
+      "type": "string"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "criterion_id": {
+            "type": "string"
+          },
+          "observation": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "criterion_id",
+          "observation"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "signal": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        null,
+        "additional_component",
+        "architecture_decision",
+        "increased_uncertainty",
+        "regression",
+        "risk_increase",
+        "scope_growth",
+        "unexpected_dependency",
+        "unexplained_test_failure"
+      ]
+    }
+  },
+  "required": [
+    "status",
+    "summary",
+    "evidence",
+    "signal"
+  ],
+  "additionalProperties": false
+}

@@ -13,6 +13,8 @@ This package expresses the accepted development-agent requirements as a reusable
 
 > **Verification limitation:** Package checks do not certify target installation, actual client-path enforcement or model comprehension. See the authoring-only [v1.1 release record](../../docs/releases/v1.1/approval.md) for the observed scope and results.
 
+**Working candidate: 1.2.0-rc.4 (proposed).** The optional [model-routing extension](docs/implementation/model-routing.md) adds a prepared read-only launcher, source-linked acceptance IDs, safe failure diagnostics and explicit coordinator verification ownership. It is subsequent to the approved v1.1 snapshot; candidate availability and local checks do not close a new baseline or activate it globally.
+
 The package is not operationally self-contained: required global policy, target-specific evidence, and host permissions remain external prerequisites. Markdown does not configure or enforce technical permissions. Acceptance scenarios describe intended behavior and are not executed agent evaluations. Successful installation checks alone do not validate agent behavior or resolve unavailable required policy.
 
 ## Engineering Method
@@ -30,6 +32,10 @@ The following links are optional authoring references, excluded from the runtime
 ## Payload and required prerequisites
 
 The runtime payload is this directory's `AGENTS.md` and associated `docs/` tree, plus the optional `scripts/preparation_guard.py` Codex adapter and its installer. The [preparation-control guide](docs/implementation/preparation-control.md) describes its explicit activation, standard-library runtime, trust and verification requirements; it is a workflow guardrail, not OS-level enforcement. This README is an installation/authoring guide outside that payload. The router defines global-policy prerequisite behavior and delegates operational subjects inside the payload; no essential runtime rule exists only in this README.
+
+The complete optional model-routing component also includes `scripts/model_routing.py` and the adjacent `scripts/model_routing_result.schema.json`. Prepared dispatch requires the existing `scripts/preparation_guard.py` module. Keep all three available at their mapped relative paths; a selection-only copy is not the full launch feature. Python 3.11+, a compatible Codex binary, model availability and an authenticated isolated profile with actual host trust remain external prerequisites.
+
+`tests/` and `scripts/test_preparation_host.py` are development/verification assets, separate from the runtime subset. Test commands in the guide require those assets. Credentials, profile trust state and authoring release reports are not part of the runtime distribution.
 
 Read the [package index](docs/INDEX.md) to select supporting files. Required links and dependency paths must resolve within the mapped payload, a verified target document, or an explicitly identified external prerequisite. Optional authoring references do not belong in runtime dependency metadata.
 
@@ -57,6 +63,7 @@ The sources below exist in this package. No target repository has been selected 
 | `docs/testing/strategy.md` | Existing verification owner or authorized mapped destination | Populate commands from verified evidence; preserve required checks and their sources. |
 | `docs/design/architecture.md`, `docs/design/_template-adr.md`, `docs/design/decisions/` | Existing architecture and decision records or authorized mapped destinations | Record observed architecture, retain unknowns, and reuse target ADR conventions and history. |
 | `docs/practices/coding.md`, `docs/practices/git.md`, `docs/practices/security.md`, `docs/preferences/developer.md` | Existing corresponding owners or authorized mapped destinations | Retain established conventions, integrate scoped adopted additions, and reference canonical policy instead of copying it. |
+| `scripts/model_routing.py`, `scripts/model_routing_result.schema.json`, existing `scripts/preparation_guard.py` | Authorized mapped script directory | Preserve selector/schema adjacency and guard import availability; verify optional adoption, actual CLI compatibility and isolated profile prerequisites. |
 
 The nominal root mapping is `AGENTS.md` to target `AGENTS.md` and `docs/` to target `docs/`. Preserve existing target structure unless changes are authorized; the concrete mapping distinguishes verified destinations from proposed creation. Adapt payload links to the actual mapping; `depends_on` resolves from the declaring document's directory.
 
